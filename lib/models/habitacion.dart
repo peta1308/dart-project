@@ -1,9 +1,19 @@
 import '../enums/estado_habitacion.dart';
+import '../enums/tipo_habitacion.dart';
 
-class habitacion {
-  var estado = estadoHabitacion.disponible;
-  var tipoHabitacion;
-  int? numeroAbitacion;
+class Habitacion {
+  
+  estadoHabitacion estado;
+  TipoHabitacion tipo;
+  final int numero;
+  final int capacidad;
+  final double precioPorNoche;
 
-  habitacion(this.estado, this.tipoHabitacion, this.numeroAbitacion);
+  Habitacion({
+    required this.numero,
+    required this.tipo,
+    required this.capacidad,
+    required this.precioPorNoche,
+    this.estado = estadoHabitacion.disponible
+  });
 }

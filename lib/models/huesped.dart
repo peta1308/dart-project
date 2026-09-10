@@ -1,8 +1,6 @@
-class huesped {
-  String? nombre;
-  String? correo;
-  String? numeroTelefonico;
-  String? contrasena;
+class Huesped {
+  final String cedula;
+  final String nombre;
 
-  huesped(this.nombre, this.correo, this.numeroTelefonico, this.contrasena);
+  Huesped(this.cedula, this.nombre);
 }
