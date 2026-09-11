@@ -7,4 +7,4 @@ void main() {
     hotel.registrarRecepcionista('admin', '1234');
     expect(hotel.recepcionistas.length, equals(1));
   });
-}
+} //.
