@@ -8,6 +8,6 @@ class CheckIn {
   CheckIn({
     required this.reserva,
     required this.cantidadPersonas,
-    required DateTime? fechaEntrada
+    required DateTime? fechaEntrada,
   }) : fechaEntrada = fechaEntrada ?? DateTime.now();
 }

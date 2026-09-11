@@ -1,5 +1,1 @@
-enum estadoHabitacion { 
-    disponible, 
-    reservada, 
-    ocupada 
-    }
+enum estadoHabitacion { disponible, reservada, ocupada }

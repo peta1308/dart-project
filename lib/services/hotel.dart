@@ -8,90 +8,90 @@ import '../enums/estado_habitacion.dart';
 import '../enums/tipo_habitacion.dart';
 
 class HotelException implements Exception {
-    final String mensaje;
-    HotelException(this.mensaje);
+  final String mensaje;
+  HotelException(this.mensaje);
 
-    @override
-    String toString() => mensaje;
+  @override
+  String toString() => mensaje;
 }
 
 class Hotel {
-    final List<Recepcionista> recepcionistas = [];
-    final List<Habitacion> habitaciones = [];
-    final List<Reserva> reservas = [];
-    final List<CheckIn> checkIns = [];
-    final List<CheckOut> checkOuts = []; 
+  final List<Recepcionista> recepcionistas = [];
+  final List<Habitacion> habitaciones = [];
+  final List<Reserva> reservas = [];
+  final List<CheckIn> checkIns = [];
+  final List<CheckOut> checkOuts = [];
 
-    Hotel({List<Habitacion>? habitacionesIniciales}) {
-        if (habitacionesIniciales != null) {
-        for (var h in habitacionesIniciales) {
+  Hotel({List<Habitacion>? habitacionesIniciales}) {
+    if (habitacionesIniciales != null) {
+      for (var h in habitacionesIniciales) {
         habitaciones.add(h);
-        }
+      }
     }
-}
+  }
 
-void registrarRecepcionista(String usuario, String contrasena) {
+  void registrarRecepcionista(String usuario, String contrasena) {
     bool existeUsuario = false;
 
     for (var r in recepcionistas) {
-        if (r.usuario == usuario) {
+      if (r.usuario == usuario) {
         existeUsuario = true;
-        }
+      }
     }
 
     if (existeUsuario) {
-        throw HotelException('Ya existe un recepcionista con el usuario "$usuario".');
+      throw HotelException(
+        'Ya existe un recepcionista con el usuario "$usuario".',
+      );
     }
 
     recepcionistas.add(Recepcionista(usuario: usuario, contrasena: contrasena));
-}
+  }
 
-
-bool iniciarSesion(String usuario, String contrasena) {
+  bool iniciarSesion(String usuario, String contrasena) {
     for (var r in recepcionistas) {
-        if (r.usuario == usuario && r.contrasena == contrasena) {
+      if (r.usuario == usuario && r.contrasena == contrasena) {
         return true;
-        }
+      }
     }
     return false;
-}
+  }
 
-
-Map<TipoHabitacion, List<Habitacion>> habitacionesDisponiblesPorTipo() {
-Map<TipoHabitacion, List<Habitacion>> agrupadas = {};
+  Map<TipoHabitacion, List<Habitacion>> habitacionesDisponiblesPorTipo() {
+    Map<TipoHabitacion, List<Habitacion>> agrupadas = {};
 
     for (var h in habitaciones) {
-        if (h.estado == estadoHabitacion.disponible) {
+      if (h.estado == estadoHabitacion.disponible) {
         if (agrupadas[h.tipo] == null) {
-            agrupadas[h.tipo] = [];
+          agrupadas[h.tipo] = [];
         }
         agrupadas[h.tipo]!.add(h);
-        }
+      }
     }
 
     return agrupadas;
-}
+  }
 
-
-Habitacion _buscarHabitacion(int numero) {
+  Habitacion _buscarHabitacion(int numero) {
     for (var h in habitaciones) {
-        if (h.numero == numero) {
+      if (h.numero == numero) {
         return h;
-        }
+      }
     }
     throw HotelException('No existe una habitación con el número $numero.');
-}
+  }
 
-
-Reserva reservarHabitacion({
+  Reserva reservarHabitacion({
     required Huesped huesped,
     required int numeroHabitacion,
     required int diasEstadia,
-    }) {
+  }) {
     Habitacion habitacion = _buscarHabitacion(numeroHabitacion);
 
     if (habitacion.estado != estadoHabitacion.disponible) {
-      throw HotelException('La habitación $numeroHabitacion no está disponible.');
+      throw HotelException(
+        'La habitación $numeroHabitacion no está disponible.',
+      );
     }
 
     if (diasEstadia <= 0) {
@@ -106,7 +106,7 @@ Reserva reservarHabitacion({
       activa: true,
     );
 
-    habitacion.estado = estadoHabitacion.reservada; 
+    habitacion.estado = estadoHabitacion.reservada;
     reservas.add(reserva);
 
     return reserva;
@@ -126,11 +126,15 @@ Reserva reservarHabitacion({
     }
 
     if (reservaEncontrada == null) {
-      throw HotelException('No hay una reserva activa para la habitación $numeroHabitacion.');
+      throw HotelException(
+        'No hay una reserva activa para la habitación $numeroHabitacion.',
+      );
     }
 
     if (habitacion.estado != estadoHabitacion.reservada) {
-      throw HotelException('La habitación $numeroHabitacion no está en estado reservada.');
+      throw HotelException(
+        'La habitación $numeroHabitacion no está en estado reservada.',
+      );
     }
 
     if (cantidadPersonas <= 0) {
@@ -138,7 +142,9 @@ Reserva reservarHabitacion({
     }
 
     if (cantidadPersonas > habitacion.capacidad) {
-      throw HotelException('La cantidad de personas supera la capacidad de la habitación.');
+      throw HotelException(
+        'La cantidad de personas supera la capacidad de la habitación.',
+      );
     }
 
     CheckIn checkIn = CheckIn(
@@ -147,28 +153,30 @@ Reserva reservarHabitacion({
       fechaEntrada: null,
     );
 
-    habitacion.estado = estadoHabitacion.ocupada; 
+    habitacion.estado = estadoHabitacion.ocupada;
     checkIns.add(checkIn);
 
     return checkIn;
-}
+  }
 
-CheckOut hacerCheckOut(int numeroHabitacion) {
+  CheckOut hacerCheckOut(int numeroHabitacion) {
     Habitacion habitacion = _buscarHabitacion(numeroHabitacion);
 
     if (habitacion.estado != estadoHabitacion.ocupada) {
-        throw HotelException('La habitación $numeroHabitacion no está ocupada.');
+      throw HotelException('La habitación $numeroHabitacion no está ocupada.');
     }
 
     CheckIn? checkInEncontrado;
     for (var c in checkIns) {
-        if (c.reserva.habitacion.numero == numeroHabitacion) {
+      if (c.reserva.habitacion.numero == numeroHabitacion) {
         checkInEncontrado = c;
-        }
+      }
     }
 
     if (checkInEncontrado == null) {
-        throw HotelException('No se encontró el check-in de la habitación $numeroHabitacion.');
+      throw HotelException(
+        'No se encontró el check-in de la habitación $numeroHabitacion.',
+      );
     }
 
     CheckOut checkOut = CheckOut(checkIn: checkInEncontrado, fechaSalida: null);
@@ -178,5 +186,5 @@ CheckOut hacerCheckOut(int numeroHabitacion) {
     checkOuts.add(checkOut);
 
     return checkOut;
-    }
+  }
 }

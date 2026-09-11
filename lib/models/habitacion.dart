@@ -2,7 +2,6 @@ import '../enums/estado_habitacion.dart';
 import '../enums/tipo_habitacion.dart';
 
 class Habitacion {
-  
   estadoHabitacion estado;
   TipoHabitacion tipo;
   final int numero;
@@ -14,6 +13,6 @@ class Habitacion {
     required this.tipo,
     required this.capacidad,
     required this.precioPorNoche,
-    this.estado = estadoHabitacion.disponible
+    this.estado = estadoHabitacion.disponible,
   });
 }

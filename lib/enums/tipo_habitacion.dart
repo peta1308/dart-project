@@ -1,6 +1,1 @@
-enum TipoHabitacion { 
-    individual, 
-    doble, 
-    triple, 
-    cuadruple 
-    }
+enum TipoHabitacion { individual, doble, triple, cuadruple }

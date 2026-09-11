@@ -2,7 +2,6 @@ import 'habitacion.dart';
 import 'huesped.dart';
 
 class Reserva {
-
   final String id;
   final Huesped huesped;
   final Habitacion habitacion;
@@ -14,6 +13,6 @@ class Reserva {
     required this.huesped,
     required this.habitacion,
     required this.diasEstadia,
-    this.activa = false
+    this.activa = false,
   });
 }
