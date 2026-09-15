@@ -13,6 +13,10 @@ class HotelException implements Exception {
 
   @override
   String toString() => mensaje;
+
+  String getMessage() {
+    return mensaje;
+  }
 }
 
 class Hotel {
